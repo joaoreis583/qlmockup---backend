@@ -1,11 +1,5 @@
 import { Column, DataType, Table, Model } from "sequelize-typescript";
 
-export enum Plan {
-  FREE = 'FREE',
-  GOLD = 'GOLD',
-  MASTER = 'MASTER',
-}
-
 @Table({
   tableName: "users",
   timestamps: true,
@@ -30,17 +24,5 @@ export class UserModel extends Model<UserModel> {
         allowNull: false,
         unique: true, // Assuming email should be unique
     })
-    declare email: string
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    declare password: string
-
-    @Column({
-        type: DataType.ENUM('FREE', 'GOLD', 'MASTER'), 
-        defaultValue: Plan.FREE 
-    })
-    declare plan: Plan
+    declare owner_id: string
 }
