@@ -1,39 +1,38 @@
 import { Injectable } from "@nestjs/common";
-import { UserEntity } from "src/domain/entities/users/user.entity";
-import { IUserRepository } from "src/domain/interfaces/users/user-interface.repository";
-import { Plan, UserModel } from "../models/user.model";
+import { WorkspaceEntity } from "src/domain/entities/users/user.entity";
+import { IWorkspaceRepository } from "src/domain/interfaces/users/user-interface.repository";
+import { Plan, WorkspaceModel } from "../models/user.model";
 import { InjectModel } from "@nestjs/sequelize";
 import { randomUUID } from "crypto";
 
 @Injectable()
-export class UserRepository implements IUserRepository{
+export class WorkspaceRepository implements IWorkspaceRepository{
     constructor(
-        @InjectModel(UserModel) private readonly userModel: typeof UserModel,
+        @InjectModel(WorkspaceModel) private readonly workspaceModel: typeof workspaceModel,
     ) {}
     async existsById(id: string): Promise<boolean> {
-        const user = await this.userModel.findByPk(id);
-        return !!user;
+        const workspace = await this.workspaceModel.findByPk(id);
+        return !!workspace;
     }
 
-    async create(data: UserEntity): Promise<UserEntity | null> {
-        const createdUser = await this.userModel.create({
+    async create(data: WorkspaceEntity): Promise<WorkspaceEntity | null> {
+        const createdWorkspace = await this.workspaceModel.create({
             id: data.id ?? randomUUID(),
             name: data.name,
             email: data.email,
-            password: data.password,
-            plan: data.plan,
+            owner_id: data.owner_id,
         } as any);
         
-        return createdUser
+        return createdWorkspace
     }
 
     async findAll (
-        filter?: { plan?: Plan; name?: string }
-    ): Promise<UserEntity[]> {
+        filter?: { name?: string, email?: string }
+    ): Promise<WorkspaceEntity[]> {
         return [];
     }
 
-    async findById(id: string): Promise<UserEntity | null> {
+    async findById(id: string): Promise<WorkspaceEntity | null> {
         return null;
     }
 
