@@ -20,12 +20,17 @@ export class AddUserToWorkspaceUseCase {
   ) {}
 
   async execute(dto: CreateWorkspaceUserDto) {
-    const { user_email, email, role = Role.MEMBRO } = dto;
+    const role = Role.ADMIN;
+    const { user_email, email, role } = dto;
 
     // Encontrar o usuário pelo email
     const user = await this.userRepository.findByEmail(user_email);
     if (!user) {
       throw new BadRequestException('Usuário não encontrado com o email fornecido.');
+    }
+
+    if (!Object.values(Role).includes(role)) {
+      throw new BadRequestException('Role inválido.');
     }
 
     // Encontrar o workspace pelo email
@@ -51,6 +56,10 @@ export class AddUserToWorkspaceUseCase {
       },
       randomUUID(),
     );
+
+    async updateRole(userId: string, workspaceId: string, newRole: Role) {
+      return this.workspaceUserRepository.updateRole(userId, workspaceId, newRole);
+    }
 
     const createdAssociation = await this.workspaceUserRepository.create(newWorkspaceUser);
 
