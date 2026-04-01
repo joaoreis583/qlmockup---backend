@@ -1,38 +1,40 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { CreateWorkspaceDto } from 'src/application/dtos/workspaces/workspace.dto';
-import { WorkspaceEntity } from 'src/domain/entities/workspaces/workspace.entity';
-import type { IWorkspaceRepository } from 'src/domain/interfaces/workspaces/workspace-interface.repository';
+import { CreateUserDto } from 'src/application/dtos/users/user.dto';
+import { UserEntity } from 'src/domain/entities/users/user.entity';
+import type { IUserRepository } from 'src/domain/interfaces/users/user-interface.repository';
 
 @Injectable()
-export class CreateWorkspaceUseCase {
+export class CreateUserUseCase {
   constructor(
-    @Inject('IWorkspaceRepository')
-    private readonly workspaceRepository: IWorkspaceRepository
+    @Inject('IUserRepository')
+    private readonly userRepository: IUserRepository
   ) {}
 
-  async execute(dto: CreateWorkspaceDto) {
-    const { id, name, owner_id } = dto;
+  async execute(dto: CreateUserDto) {
+    const { id, name, email, password, plan } = dto;
 
-    const idAlreadyExists = await this.workspaceRepository.findById(id);
+    const idAlreadyExists = await this.userRepository.findById(id);
 
     if (idAlreadyExists) {
       throw new BadRequestException('There is already a user registered with this ID.');
     }
 
-    const newWorkspace = new WorkspaceEntity(
+    const newUser = new UserEntity(
       {
         name,
-        owner_id
+        email,
+        password,
+        plan
       },
       randomUUID(),
     );
 
-    const createdWorkspace = await this.userRepository.create(newWorkspace);
+    const createdUser = await this.userRepository.create(newUser);
 
-    if (createdWorkspace === null) {
-      throw new BadRequestException('Error creating workspace');
+    if (createdUser === null) {
+      throw new BadRequestException('Error creating user');
     }
-    return createdWorkspace;
+    return createdUser;
   }
 }

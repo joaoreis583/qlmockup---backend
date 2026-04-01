@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty, IsString, IsOptional, IsDate, IsEmpty, IsEmail } from "class-validator";
-import { Plan } from "src/infra/database/models/workspace.model";
 
 export class CreateWorkspaceDto {
 
@@ -13,8 +12,13 @@ export class CreateWorkspaceDto {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ example: 'anonymus@example.com', description: 'Person Email' })
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
   @ApiProperty({ example: '1', description: 'ID of the workspace owner' })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   owner_id: string;
 }

@@ -1,20 +1,20 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { CreateUserDto } from "src/application/dtos/users/user.dto";
-import { CreateUserUseCase } from "src/application/use-cases/users/user.usecase";
+import { CreateWorkspaceDto } from "src/application/dtos/workspaces/workspace.dto";
+import { CreateWorkspaceUseCase } from "src/application/use-cases/workspaces/workspace.usecase";
 
-@ApiTags('Users')
-@Controller('users')
-export class CreateUserController {
+@ApiTags('Workspaces')
+@Controller('workspaces')
+export class CreateWorkspaceController {
     constructor(
-        private readonly createUserUseCase: CreateUserUseCase,
+        private readonly createWorkspaceUseCase: CreateWorkspaceUseCase,
     ) {}
     
     @ApiOperation({ 
-        summary: 'Create a new user' 
+        summary: 'Create a new workspace' 
     })
     @Post()
-    async createUser(@Body() dto:CreateUserDto) {
-        return this.createUserUseCase.execute(dto);
+    async createWorkspace(@Body() dto:CreateWorkspaceDto) {
+        return this.createWorkspaceUseCase.execute(dto);
     }
 }

@@ -18,6 +18,8 @@ export interface IUserRepository {
    */
   findById(id: string): Promise<UserEntity | null>;
 
+  findByEmail(email: string): Promise<UserEntity | null>;
+
   /**
    * Atualiza um usuário existente.
    */

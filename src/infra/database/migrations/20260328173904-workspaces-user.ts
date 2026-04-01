@@ -1,11 +1,19 @@
 import { QueryInterface, DataTypes } from 'sequelize';
 
 export async function up(queryInterface: QueryInterface) {
-  await queryInterface.createTable('workspace-user', {
+  await queryInterface.createTable('workspaces-user', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    user_email: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     user_id: {
@@ -34,5 +42,5 @@ export async function up(queryInterface: QueryInterface) {
 }
 
 export async function down(queryInterface: QueryInterface) {
-  await queryInterface.dropTable('workspace-user');
+  await queryInterface.dropTable('workspaces-user');
 }

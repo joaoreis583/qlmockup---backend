@@ -1,32 +1,11 @@
-import { UserEntity } from '../../entities/users/user.entity';
+import { WorkspaceEntity } from '../../entities/workspaces/workspace.entity';
 
-
-export interface IUserRepository {
-  /**
-   * Cria um novo usuário no banco.
-   * Retorna o usuário criado com ID.
-   */
-  create(server: UserEntity): Promise<UserEntity | null>;
-
-  /**
-   * Busca todos os servers com filtro opcional (ex: por role ou nome).
-   */
-  findAll(filter?: { name?: string }): Promise<UserEntity[]>;
-
-  /**
-   * Busca uma compra pelo ID.
-   */
-  findById(id: string): Promise<UserEntity | null>;
-
-  /**
-   * Atualiza um usuário existente.
-   */
-  update(id: string, data: Partial<UserEntity>): Promise<UserEntity | null>;
-
-  /**
-   * Deleta (ou desativa) um usuário pelo ID.
-   */
+export interface IWorkspaceRepository {
+  create(workspace: WorkspaceEntity): Promise<WorkspaceEntity | null>;
+  findAll(filter?: { name?: string; email?: string }): Promise<WorkspaceEntity[]>;
+  findById(id: string): Promise<WorkspaceEntity | null>;
+  findByEmail(email: string): Promise<WorkspaceEntity | null>;
+  update(id: string, data: Partial<WorkspaceEntity>): Promise<WorkspaceEntity | null>;
   delete(id: string): Promise<void>;
-  
   existsById(id: string): Promise<boolean>;
 }

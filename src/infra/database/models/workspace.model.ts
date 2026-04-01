@@ -1,10 +1,10 @@
 import { Column, DataType, Table, Model } from "sequelize-typescript";
 
 @Table({
-  tableName: "users",
+  tableName: "workspaces",
   timestamps: true,
 })
-export class UserModel extends Model<UserModel> {
+export class WorkspaceModel extends Model<WorkspaceModel> {
     @Column({
         type: DataType.UUID,
         defaultValue: DataType.UUIDV4,
@@ -22,7 +22,13 @@ export class UserModel extends Model<UserModel> {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        unique: true, // Assuming email should be unique
+        unique: true,
+    })
+    declare email: string
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
     })
     declare owner_id: string
 }

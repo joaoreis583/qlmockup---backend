@@ -30,11 +30,19 @@ export class UserRepository implements IUserRepository{
     async findAll (
         filter?: { plan?: Plan; name?: string }
     ): Promise<UserEntity[]> {
-        return [];
+        const where = {
+            ...(filter?.plan ? { plan: filter.plan } : {}),
+            ...(filter?.name ? { name: filter.name } : {}),
+        };
+        return this.userModel.findAll({ where }) as Promise<UserEntity[]>;
     }
 
     async findById(id: string): Promise<UserEntity | null> {
-        return null;
+        return this.userModel.findByPk(id) as Promise<UserEntity | null>;
+    }
+
+    async findByEmail(email: string): Promise<UserEntity | null> {
+        return this.userModel.findOne({ where: { email } }) as Promise<UserEntity | null>;
     }
 
     async update(id: string, data: Partial<UserEntity>): Promise<UserEntity | null> {
